@@ -136,6 +136,9 @@ def EditShips(ProfileMM,Faction,Mode):
     MaxHullValues = {"DirgeRaider":200, "Jackal":400, "Cartouche":800, "Shroud":800, "Khopesh":1200, "ScytheHarvester":1600, "ScytheReaper":2000, "Cairn":2400}
   elif (Faction == "Tyranids"):
     FindStrings = ["Tyranids_Escort", "Tyranids_Lightcruiser", "Tyranids_Cruiser", "Tyranids_Battlecruiser", "Tyranids_Battleship"]
+  elif (Faction == "Chaos"):
+    FindStrings = ["Chaos_Escort", "Chaos_Lightcruiser", "Chaos_Cruiser", "Chaos_Battlecruiser", "Chaos_Grandcruiser", "Chaos_Battleship"]
+    MaxHullValues = {"Iconoclast":200, "Transport":400, "Infidel":400, "Apostate":400, "Idolator":400, "StrikeCruiserMk3":1200}
 
   for str in FindStrings:
     ProfileMM.seek(0)
@@ -164,6 +167,13 @@ def EditShips(ProfileMM,Faction,Mode):
               elif ("Cruiser" in str): MaxHull = 1200
               elif ("Battlecruiser" in str): MaxHull = 1600
               elif("Battleship" in str): MaxHull = 2000
+            elif (Faction == "Chaos"):
+              if ("Escort" in str): MaxHull = MaxHullValues[ShipType]
+              elif ("Lightcruiser" in str): MaxHull = 1200
+              elif ("Cruiser" in str): MaxHull = 1600
+              elif ("Battlecruiser" in str): MaxHull = 1600
+              elif ("Grandcruiser" in str): MaxHull = 2000
+              elif ("Battleship" in str): MaxHull = 2400
             ProfileMM.seek(FindPos+len(str)+ShipTypeLen+10)
             ProfileMM.write(MaxHull.to_bytes(4,sys.byteorder))
             ProfileMM.seek(int.from_bytes(ProfileMM.read(4),sys.byteorder)+4,os.SEEK_CUR)
